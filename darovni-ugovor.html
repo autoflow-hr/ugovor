@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generiranje ugovora o darovanju motornog vozila</title>
+    <!-- Uključivanje Bootstrap CSS-a -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Uključivanje Font Awesome za ikone -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding-top: 70px; /* Za razmak ispod fiksiranog headera */
+        }
+        .form-section {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            background-color: #ffffff;
+        }
+        .form-section h3 {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            color: #343a40;
+            border: 1px solid #ced4da;
+            text-align: center;
+        }
+		.header {
+			padding: 10px;
+			background-color: #f8f9fa;
+			border-bottom: 1px solid #dee2e6;
+			position: fixed;
+			width: 100%;
+			top: 0;
+			left: 0;
+			z-index: 1000;
+		}
+
+        .header a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+		
+		h4 { padding: 20px;
+		}
+		
+        .form-floating {
+            margin-bottom: 1rem;
+        }
+        .main-content {
+            margin-top: 70px; /* Da se izbjegne preklapanje s fiksiranim headerom */
+        }
+        .hidden {
+            display: none;
+        }
+        .form-check-label {
+            margin-left: 5px;
+        }
+		.vehicle-table {
+        width: 100%; /* Tablica će zauzimati 100% širine roditeljskog elementa */
+        border-collapse: collapse; /* Uklanja razmak između obruba ćelija */
+        table-layout: fixed; /* Tablica zadržava fiksnu veličinu ćelija */
+		margin-bottom: 20px;
+		}
+
+		.vehicle-table th, .vehicle-table td {
+        border: 1px solid black; /* Obične crte oko svakog polja */
+        padding: 5px; /* Prostor unutar ćelija */
+        text-align: left; /* Poravnavanje teksta u lijevo */
+        /*  width: 16.66%; /* Svaka ćelija ima jednak udio prostora (1/6 jer imamo 6 ćelija po redu) */
+		word-wrap: break-word; /* Omogućava prijelom teksta na riječima */
+		white-space: normal;
+		font-size: 12px;
+		}
+
+		.vehicle-table th {
+        background-color: #f2f2f2; /* Svijetlosiva pozadina za zaglavlja */
+        font-weight: bold; /* Bold za naslove polja */
+		width: 13%;
+		}
+		
+		.vehicle-table td {
+		width: 20.33%;
+		}
+		
+		#printButton {
+		margin-bottom: 20px;
+		}
+		
+		.accordion-button {
+         font-weight: bold;
+        }
+		
+		.accordion {
+         margin-bottom: 50px;
+        }
+
+		}
+      <!--  #printOutput {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            background-color: #ffffff;
+        } -->
+    </style>
+</head>
+<body>
+    <header class="header">
+            <a href="index.html">Ugovor.online</a>
+    </header>
+
+    <!-- Sadržaj stranice -->
+    <div class="container mt-4 main-content">
+        <h1 class="text-center">Forma za generiranje darovnog ugovora</h1>
+
+        <!-- Sekcija za stranke -->
+        <div class="form-section">
+            <h3>Stranke</h3>
+            <form id="contractForm">
+                <div class="row">
+                    <!-- Darovatelj -->
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Darovatelj</legend>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="giverName" placeholder="Ime i prezime/naziv pravne osobe" required>
+                                <label for="giverName">Ime i prezime/naziv pravne osobe</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="giverOIB" placeholder="OIB" required>
+                                <label for="giverOIB">OIB</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="giverAddress" placeholder="Adresa" required>
+                                <label for="giverAddress">Adresa</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <!-- Daroprimatelj -->
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Daroprimatelj</legend>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="recipientName" placeholder="Ime i prezime/naziv pravne osobe" required>
+                                <label for="recipientName">Ime i prezime/naziv pravne osobe</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="recipientOIB" placeholder="OIB" required>
+                                <label for="recipientOIB">OIB</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="recipientAddress" placeholder="Adresa" required>
+                                <label for="recipientAddress">Adresa</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sekcija za vozilo -->
+        <div class="form-section">
+            <h3>Vozilo</h3>
+            <form id="vehicleForm">
+                <div class="row">
+                    <!-- Prvi redak -->
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="registrationNumber" placeholder="Registracijska oznaka" required>
+                            <label for="registrationNumber">Registracijska oznaka</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="vehicleMake" placeholder="Marka vozila" required>
+                            <label for="vehicleMake">Marka vozila</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="vehicleModel" placeholder="Model vozila" required>
+                            <label for="vehicleModel">Model vozila</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <!-- Drugi redak -->
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="chassisNumber" placeholder="Broj šasije (VIN)" required>
+                            <label for="chassisNumber">Broj šasije (VIN)</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="productionYear" placeholder="Godina proizvodnje" required>
+                            <label for="productionYear">Godina proizvodnje</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="enginePower" placeholder="Snaga motora (kW)" required>
+                            <label for="enginePower">Snaga motora (kW)</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sekcija za vrijednost vozila -->
+        <div class="form-section">
+            <h3>Vrijednost</h3>
+            <form id="paymentForm">
+                <div class="row">
+                    <!-- Prvi redak -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="value" placeholder="Tržišna vrijednost (EUR)" required>
+                            <label for="value">Tržišna vrijednost (EUR)</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Sekcija za završne odredbe -->
+        <div class="form-section">
+            <h3>Završne odredbe</h3>
+            <form id="finalTermsForm">
+                <div class="row">
+                    <!-- Prvi redak -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="taxesAndCosts" required>
+                                <option value="recipient">Daroprimatelj</option>
+                                <option value="giver">Darovatelj</option>
+                            </select>
+                            <label for="taxesAndCosts">Porez i ostale troškove snosi</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="competentCourt" placeholder="Nadležan sud u" required>
+                            <label for="competentCourt">Nadležan sud u (npr. "Zagrebu")</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <!-- Drugi redak -->
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea class="form-control" id="note" placeholder="Napomena" style="height: 100px;">Uz motorno vozilo, darovatelj je daroprimatelju predao sljedeće: ključevi, polica osiguranja, prometna dozvola, registracijske pločice</textarea>
+                            <label for="note">Napomena</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-check form-switch mt-3">
+                    <input class="form-check-input" type="checkbox" id="printNote" checked>
+                    <label class="form-check-label" for="printNote">Ispis napomene</label>
+                </div>
+                <div class="row mt-3">
+                    <!-- Zaključeno u i Datum -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="concludedIn" placeholder="Mjesto" required>
+                            <label for="concludedIn">Mjesto zaključenja ugovora</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="contractDate" placeholder="Datum" required>
+                            <label for="contractDate">Datum zaključenja ugovora</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Dugme za ispis -->
+        <div class="text-center">
+            <button class="btn btn-primary" id="printButton">Ispis</button>
+        </div>
+		
+		<!-- Collapsible accordion for FAQ -->
+		<div class="accordion" id="faqAccordion">
+        
+        <!-- Pitanje 1 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Što je ugovor o darovanju motornog vozila?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Ugovor o darovanju vozila je pravni dokument koji regulira prijenos vlasništva vozila od jedne osobe (darovatelja) drugoj osobi (daroprimatelju) bez naknade. Ovaj ugovor jasno utvrđuje uvjete pod kojima se vozilo daruje te je važan za pravnu zaštitu obje strane i osigurava da je prijenos vlasništva pravilno dokumentiran.
+                </div>
+            </div>
+        </div>
+
+        <!-- Pitanje 2 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Plaća li se upravna pristojba prilikom prijepisa vozila u stanici za tehnički pregled ako se koristi darovni ugovor?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Upravna pristojba se ne plaća ako je motorno vozilo registrirano na darovatelja u Republici Hrvatskoj, a daroprimatelj je bračni drug, potomak i predak koji čini uspravnu liniju te posvojenik i posvojitelj koji je u tom odnosu s darovateljem ili ako se na stjecanje rabljenih motornih vozila na temelju ugovora o darovanju plaća porez na nasljedstva i darove prema posebnom propisu.
+					Prilikom registracije vozila uz darovni ugovor potrebno je priložiti dokaz o statusu darodavatelja i daroprimca, npr. rodni list, izvod iz matice vjenčanih i sl.
+                </div>
+            </div>
+        </div>
+
+        <!-- Pitanje 3 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Treba li ovjeriti darovni ugovor kod javnog bilježnika?
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Ovjera ugovora o darovanju kod javnog bilježnika nije obvezna. Iznimno, ugovor je potreno ovjeriti kada ne dolazi do prave predaje stvari. Na primjer, u slučaju kada se ugovor ispunjava tek nakon smrti darovatelja.
+					U ostalim slučajevima dovoljan je potpis darovatelja i daroprimatelja.
+                </div>
+            </div>
+        </div>
+	
+		</div>
+
+        <!-- Izlazni HTML -->
+        <!-- <div id="printOutput"></div>
+    </div> -->
+
+    <!-- Uključivanje Popper i Bootstrap JS-a -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+
+	<script>
+		function formatDate(dateString) {
+			const date = new Date(dateString);
+			const day = ('0' + date.getDate()).slice(-2);  // Dodaj nulu ispred dana ako je jednocifren
+			const month = ('0' + (date.getMonth() + 1)).slice(-2);  // Dodaj nulu ispred mjeseca ako je jednocifren (mjeseci su 0-indeksirani)
+			const year = date.getFullYear();  // Dobivanje godine
+			return `${day}.${month}.${year}`;  // Formatiranje datuma u dd.mm.yyyy
+		}
+        // Prikupljanje podataka i generiranje HTML-a
+        document.getElementById('printButton').addEventListener('click', function() {
+            const giverName = document.getElementById('giverName').value;
+            const giverOIB = document.getElementById('giverOIB').value;
+            const giverAddress = document.getElementById('giverAddress').value;
+
+            const recipientName = document.getElementById('recipientName').value;
+            const recipientOIB = document.getElementById('recipientOIB').value;
+            const recipientAddress = document.getElementById('recipientAddress').value;
+
+            const concludedIn = document.getElementById('concludedIn').value;
+            const contractDate = formatDate(document.getElementById('contractDate').value);
+
+            // Podaci o vozilu
+            const registrationNumber = document.getElementById('registrationNumber').value;
+            const vehicleMake = document.getElementById('vehicleMake').value;
+            const vehicleModel = document.getElementById('vehicleModel').value;
+            const chassisNumber = document.getElementById('chassisNumber').value;
+            const productionYear = document.getElementById('productionYear').value;
+            const enginePower = document.getElementById('enginePower').value;
+
+            // Podaci o cijeni i isplati
+            const value = document.getElementById('value').value;
+
+            // Podaci o završnim odredbama
+            const taxesAndCosts = document.getElementById('taxesAndCosts').value;
+            const competentCourt = document.getElementById('competentCourt').value;
+            const note = document.getElementById('note').value;
+            const printNote = document.getElementById('printNote').checked;
+
+            // Zamjena vrijednosti za porez i troškove
+            const taxesAndCostsText = taxesAndCosts === 'recipient' ? 'daroprimatelj' : 'darovatelj';
+
+			// Generiranje HTML teksta
+				const htmlOutput = `
+				<p>Darovatelj ${giverName}, OIB: ${giverOIB}, adresa: ${giverAddress}</p>
+				<p>i</p>
+				<p>daroprimatelj ${recipientName}, OIB: ${recipientOIB}, adresa: ${recipientAddress}</p>
+				<p>zaključili su ovaj</p>
+				<h4 class="text-center font-weight-bold">UGOVOR O DAROVANJU MOTORNOG VOZILA</h4>
+				<p>Darovatelj daruje daroprimatelju motorno vozilo:</p>
+				
+				<!-- Tablica s podacima o vozilu -->
+				<table class="vehicle-table">
+					<tr>
+						<th>Registracijska oznaka</th>
+						<td>${registrationNumber}</td>
+						<th>Marka vozila</th>
+						<td>${vehicleMake}</td>
+						<th>Model vozila</th>
+						<td>${vehicleModel}</td>
+					</tr>
+					<tr>
+						<th>Broj šasije (VIN)</th>
+						<td>${chassisNumber}</td>
+						<th>Godina proizvodnje</th>
+						<td>${productionYear}</td>
+						<th>Snaga motora (kW)</th>
+						<td>${enginePower}</td>
+					</tr>
+				</table>
+
+				<!-- Tekst o cijeni i isplati -->
+				<p>Daroprimatelj prima od darovatelja navedeno motorno vozilo.</p>
+				<p>Daroprimatelj stječe pravo vlasništva na darovano motorno vozilo nakon zaključenja ovog ugovora.</p>
+				<p>Ugovorne strane izjavljuju da tržišna vrijednost navedenog darovanog motornog vozila iznosi ${value} EUR.</p>
+
+				<p>Darovatelj jamči da je vozilo njegovo vlasništvo i da nije opterećeno ovrhom, zabilježbom ili drugim teretom.</p>
+				<p>Daroprimatelj se obvezuje u što kraćem roku, a najduže 15 dana od potpisivanja ovog ugovora, registrirati vozilo na svoje ime.</p>
+
+				<p>Porez i ostale troškove snosi ${taxesAndCostsText}.</p>
+				<p>Darovatelj i daroprimatelj prihvaćaju prava i obveze iz ovog ugovora, a u slučaju spora nadležan je sud u ${competentCourt}.</p>
+				
+				${printNote ? `<p>Napomena: ${note}</p>` : ''}
+				
+				<p>Mjesto i datum zaključenja ugovora: ${concludedIn}, ${contractDate}</p>
+
+				<!-- Potpisne linije s većim razmakom -->
+				<div style="display: flex; justify-content: space-between; margin-top: 40px;">
+					<div>
+						<p style="margin-bottom: 50px;">Darovatelj:</p>
+						<hr style="width: 200px;">
+					</div>
+					<div style="text-align: right;">
+						<p style="margin-bottom: 50px;">Daroprimatelj:</p>
+						<hr style="width: 200px;">
+					</div>
+				</div>
+			`;
+			
+			var opt = {
+					  margin:       [0.2, 0.5, 0.2, 0.5],
+					  filename:     'ugovor.pdf',
+					  image:        { type: 'jpeg', quality: 0.98 },
+					  html2canvas:  { scale: 2 },
+					  jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+					};
+			
+
+            // Prikaz rezultata
+            //document.getElementById('printOutput').innerHTML = htmlOutput;
+            // Automatsko generiranje i preuzimanje PDF-a
+            html2pdf().set(opt).from(htmlOutput).save();
+        });
+	</script>
+
+</body>
+</html>
